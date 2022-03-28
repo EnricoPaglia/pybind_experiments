@@ -10,6 +10,9 @@
 namespace py = pybind11;
 using namespace py::literals;
 
+void compare(std::string state_cpp, std::string state_py, std::mt19937 gen_comp, std::mt19937 gen_new_, py::object py_gen, py::module_ fun);
+
+
 int main() {
 
     py::scoped_interpreter guard{};
@@ -46,41 +49,48 @@ int main() {
     // Compare the states
     if (gen_compare == gen_new) {
         std::cout << "The states in cpp and py are the SAME" << std::endl;
-    }
-    else {
+    } else {
         std::cout << "The states in cpp and py are DIFFERENT" << std::endl;
     }
 
     // Generate and print a 32-bit unsigned int in python and cpp
-    auto n = std::pow(2,32);
-    std::cout << "Sample in python: " << py_gen.attr("integers")(0,n,1,"uint32").cast<unsigned int>() << std::endl;
+    auto n = std::pow(2, 32);
+    std::cout << "Sample in python: " << py_gen.attr("integers")(0, n, 1, "uint32").cast<unsigned int>() << std::endl;
     std::cout << "Sample in cpp: " << gen_new() << std::endl;
 
+    compare("state_cpp.txt", "state_py.txt", gen_compare, gen_new, py_gen, fun);
+
+    // Generate and print samples from normal distribution in python and cpp
     std::normal_distribution<> normal(0, 1);
-    std::cout << "Normal sample in python: " << py_gen.attr("normal")(0,1,1).cast<double>() << std::endl;
-    std::cout << "Normal sample in cpp: " << normal(gen_new) << std::endl;
-    std::cout << "Normal sample in python: " << py_gen.attr("normal")(0,1,1).cast<double>() << std::endl;
+    std::cout << "Normal sample in python: " << py_gen.attr("normal")(0, 1, 1).cast<double>() << std::endl;
     std::cout << "Normal sample in cpp: " << normal(gen_new) << std::endl;
 
-    // Check if the states are still the same
+    compare("state_cpp.txt", "state_py.txt", gen_compare, gen_new, py_gen, fun);
 
-    // Write cpp state
-    std::ofstream state_after("state_cpp.txt");
-    state_after << gen_new;
+    // Generate and print samples from uniform distribution in python and cpp
+    std::uniform_int_distribution<> unif(1, 6);
+    std::cout << "Uniform sample in python: " << py_gen.attr("uniform")(1, 6, 1).cast<double>() << std::endl;
+    std::cout << "Uniform sample in cpp: " << unif(gen_new) << std::endl;
+
+    compare("state_cpp.txt", "state_py.txt", gen_compare, gen_new, py_gen, fun);
+
+    return 0;
+}
+
+void compare(std::string state_cpp, std::string state_py, std::mt19937 gen_comp, std::mt19937 gen_new_, py::object py_gen, py::module_ fun) {
+    std::ofstream state_after(state_cpp);
+    state_after << gen_new_;
     state_after.close();
 
     // Write python state
-    fun.attr("write_state_to_txt")(py_gen, "state_py.txt");
+    fun.attr("write_state_to_txt")(py_gen, state_py);
     std::ifstream file_compare_after("state_py.txt");
-    file_compare_after >> gen_compare;
+    file_compare_after >> gen_comp;
     file_compare_after.close();
 
-    if (gen_compare == gen_new) {
+    if (gen_comp == gen_new_) {
         std::cout << "The states after sampling in cpp and py are the SAME" << std::endl;
-    }
-    else {
+    } else {
         std::cout << "The states after sampling in cpp and py are DIFFERENT" << std::endl;
     }
-
-    return 0;
 }
