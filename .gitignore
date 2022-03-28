@@ -1,0 +1,8 @@
+.cmake/
+.idea/
+*.txt*
+.CMakeFiles/
+Makefile
+__pycache__/
+cmake_install.cmake
+rng_experiments
