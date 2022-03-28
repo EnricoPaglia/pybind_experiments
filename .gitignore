@@ -1,7 +1,7 @@
 .cmake/
 .idea/
 *.txt*
-.CMakeFiles/
+CMakeFiles/
 Makefile
 __pycache__/
 cmake_install.cmake
