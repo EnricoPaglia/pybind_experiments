@@ -56,9 +56,11 @@ int main() {
     std::cout << "Sample in python: " << py_gen.attr("integers")(0,n,1,"uint32").cast<unsigned int>() << std::endl;
     std::cout << "Sample in cpp: " << gen_new() << std::endl;
 
-    std::cout << "Sample gaussian in python: " << py_gen.attr("normal")(0,1).cast<double>() << std::endl;
-    std::normal_distribution<double> distribution(0,1.0);
-    std::cout << "Sample gaussian in cpp: " << distribution(gen_new) << std::endl;
+    std::normal_distribution<> normal(0, 1);
+    std::cout << "Normal sample in python: " << py_gen.attr("normal")(0,1,1).cast<double>() << std::endl;
+    std::cout << "Normal sample in cpp: " << normal(gen_new) << std::endl;
+    std::cout << "Normal sample in python: " << py_gen.attr("normal")(0,1,1).cast<double>() << std::endl;
+    std::cout << "Normal sample in cpp: " << normal(gen_new) << std::endl;
 
     // Check if the states are still the same
 
