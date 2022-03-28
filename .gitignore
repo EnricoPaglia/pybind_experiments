@@ -1,8 +1,9 @@
 .cmake/
 .idea/
 *.txt*
+Testing/
 CMakeFiles/
 Makefile
 __pycache__/
 cmake_install.cmake
-rng_experiments
+*rng_experiments*
