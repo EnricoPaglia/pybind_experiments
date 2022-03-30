@@ -10,7 +10,7 @@ namespace py = pybind11;
 using namespace py::literals;
 
 
-int main(){
+int main() {
 
     py::scoped_interpreter guard{};
 
@@ -25,13 +25,13 @@ int main(){
     auto py_gen = numpy_random.attr("Generator")(py_engine);
 
     // Synchronize py_gen with gen and then gen2 with py_gen
-    synchronize_cpp_to_py_state(gen,py_gen,numpy);
-    synchronize_py_to_cpp_state(gen2,py_gen);
+    synchronize_cpp_to_py_state(gen, py_gen, numpy);
+    synchronize_py_to_cpp_state(gen2, py_gen);
 
     // Check if the states are equal
-    if(gen==gen2){
+    if (gen == gen2) {
         std::cout << "The states are equal" << std::endl;
-    } else{
+    } else {
         std::cout << "The states are different" << std::endl;
     }
 

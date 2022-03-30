@@ -10,7 +10,9 @@
 namespace py = pybind11;
 using namespace py::literals;
 
-void compare(std::string state_cpp, std::string state_py, std::mt19937 gen_comp, std::mt19937 gen_new_, py::object py_gen, py::module_ fun);
+void
+compare(std::string state_cpp, std::string state_py, std::mt19937 gen_comp, std::mt19937 gen_new_, py::object py_gen,
+        py::module_ fun);
 
 
 int main() {
@@ -77,7 +79,9 @@ int main() {
     return 0;
 }
 
-void compare(std::string state_cpp, std::string state_py, std::mt19937 gen_comp, std::mt19937 gen_new_, py::object py_gen, py::module_ fun) {
+void
+compare(std::string state_cpp, std::string state_py, std::mt19937 gen_comp, std::mt19937 gen_new_, py::object py_gen,
+        py::module_ fun) {
     std::ofstream state_after(state_cpp);
     state_after << gen_new_;
     state_after.close();
