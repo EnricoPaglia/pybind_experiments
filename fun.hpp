@@ -8,20 +8,22 @@
 namespace py = pybind11;
 using namespace py::literals;
 
-void synchronize_cpp_to_py_state(const std::mt19937 &cpp_gen, py::object &py_gen, py::module_ &numpy) {
+void synchronize_cpp_to_py_state(const std::mt19937 &cpp_gen, py::object &py_gen) {
+    // TODO: Check if it's more efficient to pass py::module_ &numpy as an argument and create it only once in main
 
+    auto numpy = py::module_::import("numpy");
     std::stringstream state{};
     state << cpp_gen;
 
-    std::string auxiliary_string{};
+    std::string aux_string{};
     py::list state_list{};
 
     for (unsigned int n = 0; n < 624; ++n) {
-        state >> auxiliary_string;
-        state_list.append(std::stoul(auxiliary_string));
+        state >> aux_string;
+        state_list.append(std::stoul(aux_string));
     }
-    state >> auxiliary_string;
-    unsigned int pos = std::stoul(auxiliary_string);
+    state >> aux_string;
+    unsigned int pos = std::stoul(aux_string);
 
     py::object array = numpy.attr("array")(state_list, "uint32");
     py::dict state_dict("key"_a = array, "pos"_a = pos);

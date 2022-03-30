@@ -19,13 +19,13 @@ int main() {
     std::mt19937 gen2(0);
 
     // Create a generator in python
-    auto numpy = py::module_::import("numpy");
+
     auto numpy_random = py::module_::import("numpy.random");
     auto py_engine = numpy_random.attr("MT19937")();
     auto py_gen = numpy_random.attr("Generator")(py_engine);
 
     // Synchronize py_gen with gen and then gen2 with py_gen
-    synchronize_cpp_to_py_state(gen, py_gen, numpy);
+    synchronize_cpp_to_py_state(gen, py_gen);
     synchronize_py_to_cpp_state(gen2, py_gen);
 
     // Check if the states are equal
