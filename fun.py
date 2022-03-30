@@ -17,3 +17,7 @@ def write_state_to_txt(gen, fpath):
         for x in gen_state['state']['key']:
             f.write(str(x) + " ")
         f.write(str(gen_state['state']['pos']))
+
+
+def sample_normal(mu, sigma, gen):
+    return gen.normal(mu, sigma)
