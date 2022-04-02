@@ -20,4 +20,9 @@ def write_state_to_txt(gen, fpath):
 
 
 def sample_normal(mu, sigma, gen):
-    return gen.normal(mu, sigma)
+    write_state_to_txt(gen, "3_py_gen_from_py_state_before.txt")
+    a = gen.uniform(0,9)
+    a = gen.gamma(2,2)
+    a = gen.normal(mu, sigma)
+    write_state_to_txt(gen, "4_py_gen_from_py_state_after.txt")
+    return a
