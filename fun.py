@@ -17,3 +17,12 @@ def write_state_to_txt(gen, fpath):
         for x in gen_state['state']['key']:
             f.write(str(x) + " ")
         f.write(str(gen_state['state']['pos']))
+
+
+def sample_normal(mu, sigma, gen):
+    write_state_to_txt(gen, "3_py_gen_from_py_state_before.txt")
+    a = gen.uniform(0, 9)
+    a = gen.gamma(2, 2)
+    a = gen.normal(mu, sigma)
+    write_state_to_txt(gen, "4_py_gen_from_py_state_after.txt")
+    return a
