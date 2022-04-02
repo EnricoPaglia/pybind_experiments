@@ -29,15 +29,15 @@ int main() {
     state << gen;
     state.close();
 
-    synchronize_cpp_to_py_state(gen,py_gen);
+    synchronize_cpp_to_py_state(gen, py_gen);
 
-    fun.attr("write_state_to_txt")(py_gen,"2_py_gen_from_cpp_state_before.txt");
+    fun.attr("write_state_to_txt")(py_gen, "2_py_gen_from_cpp_state_before.txt");
 
-    std::cout << "The sample is: " << fun.attr("sample_normal")(0,1,py_gen).cast<double>() << std::endl;
+    std::cout << "The sample is: " << fun.attr("sample_normal")(0, 1, py_gen).cast<double>() << std::endl;
 
-    fun.attr("write_state_to_txt")(py_gen,"5_py_gen_from_cpp_state_after.txt");
+    fun.attr("write_state_to_txt")(py_gen, "5_py_gen_from_cpp_state_after.txt");
 
-    synchronize_py_to_cpp_state(gen,py_gen);
+    synchronize_py_to_cpp_state(gen, py_gen);
 
     std::ofstream state_("6_gen_state_after.txt");
     state_ << gen;
@@ -74,11 +74,11 @@ int main() {
     state6 >> gen6;
     state6.close();
 
-    if((gen1 == gen2) && (gen1 == gen3)){
+    if ((gen1 == gen2) && (gen1 == gen3)) {
         std::cout << "States before sampling are equal in all the environments" << std::endl;
     }
 
-    if((gen4 == gen5) && (gen4 == gen6)){
+    if ((gen4 == gen5) && (gen4 == gen6)) {
         std::cout << "States after sampling are equal in all the environments" << std::endl;
     }
 
