@@ -1,4 +1,6 @@
+import numpy
 import numpy as np
+from scipy.stats import wishart
 
 
 def set_state_from_txt(gen, fpath):
@@ -26,3 +28,18 @@ def sample_normal(mu, sigma, gen):
     a = gen.normal(mu, sigma)
     write_state_to_txt(gen, "4_py_gen_from_py_state_after.txt")
     return a
+
+
+def sample_sp_wishart(df, scale, gen):
+    write_state_to_txt(gen, "3_py_gen_from_py_state_before.txt")
+    a = wishart.rvs(df, scale, size=1, random_state=gen)
+    write_state_to_txt(gen, "4_py_gen_from_py_state_after.txt")
+    return a
+
+
+if __name__ == '__main__':
+    eng = numpy.random.MT19937(42)
+    gen = numpy.random.Generator(eng)
+    x = np.linspace(1e-5, 8, 100)
+    w = sample_sp_wishart(df=3, scale=1, gen=gen)
+    print("wishart sample", w)
